@@ -1,0 +1,69 @@
+SELECT  id, name from Account
+
+SELECT id, name,  createdDate from account order by createddate desc limit 3
+
+-DESC, LIMIT, ORDER BY-
+select id, name from account Order by name desc limit 5
+
+-NOT EQUAL TO-
+select id, name, phone from account where phone !=null
+
+-NOT EQUAL TO-
+select name, id,  project_name__c, status__c, description__c from salesforce_project__c  where status__c !='new'
+
+-NOT EQUAL TO-
+select name, id, phone, accountnumber from account where phone !=null and accountnumber !=null
+
+-OR-
+SELECT Name, Id, phone,  accountnumber,   active__c,  shippingcity, website from account where (phone != null or website != null) and accountnumber != null
+
+-AND-
+select id, name, subject__c, status__c, priority__c from salesforce_ticket__c where status__c != '' and priority__c != 'high'
+
+-IN-
+select id, name, subject__c, status__c, priority__c from salesforce_ticket__c where status__c != '' and priority__c in ('high', 'low','')
+
+
+-RELATIONSHIPS-
+MASTER-DETAIL RELATIONSHIPS
+                  *parent.child
+select id, name, account.name from contact
+
+select id, name, account.name, account.industry from contact
+
+                                            *child-parent (we use 'r' for RELATIONSHIPS)
+select id, name, subject__c, priority__c, status__c, salesforce_project__r.name, salesforce_project__r.project_name__c from salesforce_ticket__c
+
+------------------
+                *parent account and all its child records
+                *we are writing a query inside the query
+select id, name, (select id, lastname from contacts) from account
+
+----------------------
+            *each project have its own tickets
+select id, name, project_name__c, status__c, (select id, name, subject__c, status__c from salesforce_tickets__r) from salesforce_project__c
+
+            -------------------------
+select id, name, annualrevenue, type, (select name, amount from opportunities where stagename = 'Closed Won') from account where type = 'Customer -Direct'
+
+-COUNT-
+    *count the not blank fields
+
+select count() from contact
+--------------
+    *checks all records where ID is not blank
+
+select count(ID) from contact
+------------------
+-GROUP BY-
+
+    **grouping records and getting summary
+
+select leadsource, count(Name) from lead group by leadsource
+
+
+-HAVING-
+(AVG(), COUNT(), MIN(), MAX(), SUM())
+
+
+select Name, count(id) from account group by name having count(id) > 1

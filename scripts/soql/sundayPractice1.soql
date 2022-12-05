@@ -1,0 +1,22 @@
+select name, phone from account where phone = null order by name asc
+
+
+Question 3:  SOQL – MediumWrite the SOQL query for the following requirements:
+1.Fetch all the opportunities which have stage as Closed Won and Amount more than or equal to35000.
+
+//from child to parent
+2.Fetch all the contacts and their related Account Name, order them by the contact’s last name indescending order.
+//--select id, lastname, account.name from contact order by lastname desc
+
+//from parent to child
+3.Fetch all the Accounts along with their related Opportunities with StageName other than ClosedLost.
+//---select name, (select id, stagename from opportunities where stagename != 'Closed Lost') from account 
+
+
+4.Find the Top 10 opportunities based on Amount value.
+//--select name, amount from opportunity order by amount desc limit 10
+
+
+5.Find lower 20 opportunities based on Amount value which are not set to Closed Won and not toClosed Lost stage
+//--select name, stagename, amount from opportunity where stagename != 'closed won' and stagename != 'closed lost' order by amount asc limit 20
+
